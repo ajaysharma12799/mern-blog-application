@@ -57,9 +57,11 @@ router.post("/login", async (req, res) => {
 
     const { password: userPassword, ...userInfo } = user?._doc;
 
-    res.cookie('token', token).status(200).json({
+    res.cookie("token", token, { httpOnly: true }).status(200).json({
       status: true,
+      msg: "LoggedIn Successfully",
       data: userInfo,
+      token,
     });
   } catch (error) {
     res.status(500).json({ error: error?.message });
@@ -67,16 +69,18 @@ router.post("/login", async (req, res) => {
 });
 
 // Logout
-router.get('/logout', (req, res) => {
+router.get("/logout", (req, res) => {
   try {
-    res.clearCookie('token', {
-      sameSite: 'none',
-      secure: true,
-    }).status(200).json({
-      statue: true,
-      msg: 'User Logout Successfully'
-    });
-
+    res
+      .clearCookie("token", {
+        sameSite: "none",
+        secure: true,
+      })
+      .status(200)
+      .json({
+        statue: true,
+        msg: "User Logout Successfully",
+      });
   } catch (error) {
     res.status(500).json({ error: error?.message });
   }
