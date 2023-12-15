@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { axiosInstance as axios } from "../../services/axios";
 
 const initialState = {
   isRegisterLoading: false,
@@ -10,13 +10,11 @@ const initialState = {
   token: localStorage.getItem("token") ? localStorage.getItem("token") : null,
 };
 
-const BASE_URL = "http://localhost:4321/api";
-
 export const registerUser = createAsyncThunk(
   "auth/register",
   async ({ user, toast, navigate, resetForm }) => {
     try {
-      const response = await axios.post(`${BASE_URL}/auth/register`, user);
+      const response = await axios.post(`/auth/register`, user);
       console.log(response?.data);
       toast.success(response?.data?.msg);
       resetForm(); // Reset Form
@@ -32,7 +30,7 @@ export const loginUser = createAsyncThunk(
   "auth/login",
   async ({ user, toast, navigate, resetForm }) => {
     try {
-      const response = await axios.post(`${BASE_URL}/auth/login`, user);
+      const response = await axios.post(`/auth/login`, user);
       console.log(response?.data);
       toast.success(response?.data?.msg);
       navigate("/dashboard");
@@ -51,7 +49,7 @@ export const logoutUser = createAsyncThunk(
   "auth/logout",
   async ({ toast, navigate }) => {
     try {
-      const response = await axios.get(`${BASE_URL}/auth/logout`);
+      const response = await axios.get(`/auth/logout`);
       toast.success(response?.data?.msg);
       localStorage.removeItem("token");
       navigate("/");
@@ -61,6 +59,17 @@ export const logoutUser = createAsyncThunk(
     }
   }
 );
+
+export const getCurrentUser = createAsyncThunk("auth/me", async ({ toast }) => {
+  try {
+    const response = await axios.get(`/auth/me`);
+    console.log(response);
+    return response?.data;
+  } catch (error) {
+    console.log(error);
+    toast.error(error?.response?.data?.error);
+  }
+});
 
 const authSlice = createSlice({
   name: "authSlice",
@@ -102,6 +111,11 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         state.currentUser = null;
         state.token = null;
+      })
+      // Get Current User
+      .addCase(getCurrentUser.fulfilled, (state, action) => {
+        state.isAuthenticated = true;
+        state.currentUser = action.payload?.data;
       });
   },
 });
