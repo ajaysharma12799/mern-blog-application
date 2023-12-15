@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   Box,
   Button,
@@ -31,8 +32,7 @@ const Register = () => {
       console.log(value);
       if (value.password === value.confirmPassword) {
         const { confirmPassword, ...user } = value;
-        dispatch(registerUser({ user, toast, navigate }));
-        resetForm();
+        dispatch(registerUser({ user, toast, navigate, resetForm }));
       } else {
         toast.error(`Password Don't Match`);
       }

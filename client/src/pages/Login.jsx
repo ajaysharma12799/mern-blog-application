@@ -5,14 +5,20 @@ import {
   Paper,
   Stack,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import Screen from "../components/Layout/Screen";
 import TextInput from "../components/common/TextInput";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { loginUser } from "../redux/features/auth/auth.slice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isLoginLoading } = useSelector((state) => state.auth);
 
   const formik = useFormik({
     initialValues: {
@@ -21,12 +27,7 @@ const Login = () => {
     },
     onSubmit: (value, { resetForm }) => {
       console.log(value);
-      // API Call
-
-      navigate("/dashboard");
-
-      // Reset Form
-      resetForm();
+      dispatch(loginUser({ user: value, toast, navigate, resetForm }));
     },
   });
   return (
@@ -57,8 +58,13 @@ const Login = () => {
               value={formik.values.password}
               onChange={formik.handleChange}
             />
-            <Button type="submit" variant="contained" fullWidth>
-              Login
+            <Button
+              disabled={isLoginLoading}
+              type="submit"
+              variant="contained"
+              fullWidth
+            >
+              {isLoginLoading ? <CircularProgress /> : "Login"}
             </Button>
           </Box>
           <Stack p={2} direction={"row"} alignItems={"center"} gap={1}>
