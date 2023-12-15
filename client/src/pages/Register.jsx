@@ -5,13 +5,21 @@ import {
   Paper,
   Stack,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import Screen from "../components/Layout/Screen";
 import TextInput from "../components/common/TextInput";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { registerUser } from "../redux/features/auth/auth.slice";
+import toast from "react-hot-toast";
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isRegisterLoading } = useSelector((state) => state.auth);
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -21,7 +29,13 @@ const Register = () => {
     },
     onSubmit: (value, { resetForm }) => {
       console.log(value);
-      resetForm();
+      if (value.password === value.confirmPassword) {
+        const { confirmPassword, ...user } = value;
+        dispatch(registerUser({ user, toast, navigate }));
+        resetForm();
+      } else {
+        toast.error(`Password Don't Match`);
+      }
     },
   });
   return (
@@ -66,8 +80,13 @@ const Register = () => {
               value={formik.values.confirmPassword}
               onChange={formik.handleChange}
             />
-            <Button type="submit" variant="contained" fullWidth>
-              Register
+            <Button
+              disabled={isRegisterLoading}
+              type="submit"
+              variant="contained"
+              fullWidth
+            >
+              {isRegisterLoading ? <CircularProgress /> : "Register"}
             </Button>
           </Box>
           <Stack p={2} direction={"row"} alignItems={"center"} gap={1}>
