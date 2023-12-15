@@ -86,4 +86,23 @@ router.get("/logout", (req, res) => {
   }
 });
 
+// Get User Profile
+router.get("/me", async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(token, "MERN-Blog-App");
+    const user = await UserModel.findById(decoded?.id).select("-password");
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ status: false, error: `User Does't Exist` });
+    }
+
+    res.status(200).json({ status: true, data: user });
+  } catch (error) {
+    res.status(500).json({ error: error?.message });
+  }
+});
+
 module.exports = router;
