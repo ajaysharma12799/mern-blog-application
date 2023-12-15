@@ -1,12 +1,16 @@
 /* eslint-disable react/prop-types */
 import { Button, Menu, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../redux/features/auth/auth.slice";
+import toast from "react-hot-toast";
 
 const NavMenu = ({ isOpen, toggleMenu }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    navigate("/");
+    dispatch(logoutUser({ toast, navigate }));
   };
 
   return (

@@ -7,12 +7,11 @@ import {
   Stack,
   Toolbar,
   Typography,
-  Button,
 } from "@mui/material";
 import React, { useState } from "react";
 import NavMenu from "./NavMenu";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,7 +33,7 @@ const Navbar = () => {
               justifyContent={"space-between"}
               width={"100%"}
             >
-              <Link to={"/dashboard"}>
+              <Link to={isAuthenticated ? "/dashboard" : "/"}>
                 <Typography variant="h5" color={"white"}>
                   Blogify
                 </Typography>
@@ -70,7 +69,11 @@ const Navbar = () => {
                   </IconButton>
                 </Stack>
               ) : (
-                <Typography>Login</Typography>
+                <Typography variant="h6">
+                  <Link to={"/login"} style={{ color: "white" }}>
+                    Login
+                  </Link>
+                </Typography>
               )}
             </Stack>
           </Toolbar>
