@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import BlogCard from "../components/BlogCard/BlogCard";
+import BlogCard from "../components/Card/BlogCard";
 import Screen from "../components/Layout/Screen";
 import {
   Container,

@@ -8,7 +8,7 @@ import {
   Tab,
 } from "@mui/material";
 import Screen from "../components/Layout/Screen";
-import BlogCard from "../components/BlogCard/BlogCard";
+import BlogCard from "../components/Card/BlogCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
