@@ -15,7 +15,7 @@ const BlogCard = ({ article, handleDelete }) => {
   const { currentUser } = useSelector((state) => state.auth);
 
   return (
-    <Grid item sm={12} md={3}>
+    <Grid item xs={12} sm={6} md={3}>
       <Card sx={{ width: "100%" }}>
         <CardMedia
           component={"img"}
