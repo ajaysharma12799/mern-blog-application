@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import TextInput from "../../components/common/TextInput";
 import TextArea from "../../components/common/TextArea";
+import { BLOG_CATEGORIES } from "../../utils/CONSTANT";
 
 const ArticleForm = ({ formik, setImage }) => {
   return (
@@ -44,8 +45,21 @@ const ArticleForm = ({ formik, setImage }) => {
       <Box my={2}>
         <FormControl fullWidth>
           <InputLabel id="category-menu">Category</InputLabel>
-          <Select labelId="category-menu" id="category-menu" label="Category">
-            <MenuItem>Ten</MenuItem>
+          <Select
+            value={formik.values.category}
+            onChange={formik.handleChange}
+            labelId="category-menu"
+            id="category-menu"
+            label="Category"
+            name="category"
+          >
+            {BLOG_CATEGORIES.map((category) => {
+              return (
+                <MenuItem key={category} value={category}>
+                  {category}
+                </MenuItem>
+              );
+            })}
           </Select>
         </FormControl>
       </Box>
