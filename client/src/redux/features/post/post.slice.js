@@ -26,9 +26,9 @@ export const getArticles = createAsyncThunk(
 
 export const getArticle = createAsyncThunk(
   "articles/getArticle",
-  async ({ id }) => {
+  async ({ slug }) => {
     try {
-      const response = await axiosInstance.get(`/post/get-article/${id}`);
+      const response = await axiosInstance.get(`/post/get-article/${slug}`);
       return response?.data;
     } catch (error) {
       toast.error(error?.response?.data?.error);
