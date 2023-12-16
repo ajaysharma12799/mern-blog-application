@@ -9,6 +9,7 @@ const initialState = {
   currentArticle: null,
   currentUserArticles: [],
   isCurrentUserArticleLoading: false,
+  isCreateArticleLoading: false,
 };
 
 export const getArticles = createAsyncThunk(
@@ -56,6 +57,26 @@ export const deleteArticle = createAsyncThunk(
       const response = await axiosInstance.delete(`/post/delete-article/${id}`);
       toast.success(response?.data?.msg);
       return response?.data;
+    } catch (error) {
+      toast.error(error?.response?.data?.error);
+    }
+  }
+);
+
+export const createArticle = createAsyncThunk(
+  "articles/createArticle",
+  async ({ articleFormData, navigate, resetForm }, thunkAPI) => {
+    try {
+      const response = await axiosInstance.post(
+        "/post/create-article",
+        articleFormData
+      );
+      if (response?.data?.status) {
+        toast.success(response?.data?.msg);
+        navigate("/dashboard");
+        resetForm();
+        thunkAPI.dispatch(getArticles());
+      }
     } catch (error) {
       toast.error(error?.response?.data?.error);
     }
@@ -110,6 +131,13 @@ const postSlice = createSlice({
         state.articles = state.articles.filter(
           (article) => article.id !== action.payload?.data
         );
+      })
+      // Create Article
+      .addCase(createArticle.pending, (state) => {
+        state.isCreateArticleLoading = true;
+      })
+      .addCase(createArticle.fulfilled, (state) => {
+        state.isCreateArticleLoading = false;
       });
   },
 });
