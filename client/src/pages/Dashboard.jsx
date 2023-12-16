@@ -55,7 +55,9 @@ const Dashboard = () => {
                 {isAllArticlesLoading ? (
                   <CircularProgress />
                 ) : articles.length <= 0 ? (
-                  <Typography>No Articles</Typography>
+                  <Typography variant="h6" mt={2}>
+                    No Articles
+                  </Typography>
                 ) : (
                   articles?.map((article) => {
                     return <BlogCard key={article?._id} article={article} />;
@@ -67,7 +69,9 @@ const Dashboard = () => {
                 {isCurrentUserArticleLoading ? (
                   <CircularProgress />
                 ) : currentUserArticles.length <= 0 ? (
-                  <Typography>No Articles</Typography>
+                  <Typography variant="h6" mt={2}>
+                    No Articles
+                  </Typography>
                 ) : (
                   currentUserArticles.map((article) => {
                     return (
