@@ -56,7 +56,7 @@ const App = () => {
               </PrivateRoute>
             }
           />
-          <Route path="/view-article/:id" element={<ArticleDetail />} />
+          <Route path="/view-article/:slug" element={<ArticleDetail />} />
         </Routes>
       </BrowserRouter>
     </React.Fragment>

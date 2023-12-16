@@ -21,7 +21,7 @@ const ArticleDetail = () => {
   );
 
   useEffect(() => {
-    dispatch(getArticle({ id: params.id }));
+    dispatch(getArticle({ slug: params.slug }));
   }, []);
 
   return (

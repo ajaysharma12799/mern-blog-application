@@ -24,7 +24,7 @@ const BlogCard = ({ article, handleDelete }) => {
           sx={{ width: "100%", height: "100%" }}
         />
         <CardContent>
-          <Link to={`/view-article/${article?._id}`}>
+          <Link to={`/view-article/${article?.slug}`}>
             <Typography variant="h5">{article?.title}</Typography>
           </Link>
           <Typography variant="body1">{article?.excerpt}</Typography>
