@@ -5,8 +5,8 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import WriteArticle from "./pages/WriteArticle/WriteArticle";
 import { Toaster } from "react-hot-toast";
-import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
-import PublicRoute from "./components/PrivateRoute/PublicRoute";
+import PrivateRoute from "./components/routes/PrivateRoute";
+import PublicRoute from "./components/routes/PublicRoute";
 import Home from "./pages/Home";
 import ArticleDetail from "./pages/ArticleDetail";
 
