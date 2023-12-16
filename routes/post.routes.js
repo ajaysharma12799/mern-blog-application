@@ -35,6 +35,21 @@ router.get("/get-article/:id", async (req, res) => {
   }
 });
 
+// Get Article Of Current User
+router.get("/get-current-user-articles", isAuthenticated, async (req, res) => {
+  try {
+    const articles = await PostModel.find({ user: req.user?.id });
+    console.log(req.user.id);
+    res.status(200).json({
+      status: true,
+      data: articles,
+      totalResult: articles.length,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error?.message });
+  }
+});
+
 // Add Article
 router.post(
   "/create-article",
