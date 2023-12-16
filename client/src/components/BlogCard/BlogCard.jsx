@@ -1,19 +1,49 @@
-import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
+/* eslint-disable react/prop-types */
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Grid,
+  Typography,
+  CardActions,
+  Button,
+} from "@mui/material";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const BlogCard = () => {
+const BlogCard = ({ article, handleDelete }) => {
+  const { currentUser } = useSelector((state) => state.auth);
+
   return (
-    <Grid item sm={12} md={4}>
+    <Grid item sm={12} md={3}>
       <Card sx={{ width: "100%" }}>
         <CardMedia
           component={"img"}
-          image="https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?w=1480&t=st=1700903201~exp=1700903801~hmac=92e7f43c035671218fe71b3e2e428985f605652295359d8a9430ae10290d9af7"
-          title="Blog Title"
+          image={article?.image}
+          title={article?.title}
           sx={{ width: "100%", height: "100%" }}
         />
         <CardContent>
-          <Typography variant="h5">Title</Typography>
-          <Typography variant="body1">Excerpt</Typography>
+          <Link to={`/view-article/${article?._id}`}>
+            <Typography variant="h5">{article?.title}</Typography>
+          </Link>
+          <Typography variant="body1">{article?.excerpt}</Typography>
         </CardContent>
+        {currentUser?._id === article.user && (
+          <CardActions>
+            <Button variant="outlined" color="primary" fullWidth>
+              Edit
+            </Button>
+            <Button
+              onClick={() => handleDelete(article?._id)}
+              variant="contained"
+              color="error"
+              fullWidth
+            >
+              Delete
+            </Button>
+          </CardActions>
+        )}
       </Card>
     </Grid>
   );
