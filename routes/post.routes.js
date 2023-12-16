@@ -7,7 +7,7 @@ const { uploadOnCloudinary } = require("../utils/Cloudinary");
 // Get Articles
 router.get("/get-articles", async (req, res) => {
   try {
-    const articles = await PostModel.find();
+    const articles = await PostModel.find().sort({ createdAt: -1 });
     res.status(200).json({
       status: true,
       data: articles,
@@ -38,7 +38,9 @@ router.get("/get-article/:id", async (req, res) => {
 // Get Article Of Current User
 router.get("/get-current-user-articles", isAuthenticated, async (req, res) => {
   try {
-    const articles = await PostModel.find({ user: req.user?.id });
+    const articles = await PostModel.find({ user: req.user?.id }).sort({
+      createdAt: -1,
+    });
     console.log(req.user.id);
     res.status(200).json({
       status: true,
