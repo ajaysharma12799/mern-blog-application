@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
-import { Button, Menu, MenuItem } from "@mui/material";
+import { Button, Menu, MenuItem, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/features/auth/auth.slice";
 import toast from "react-hot-toast";
 
 const NavMenu = ({ isOpen, toggleMenu }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(logoutUser({ toast, navigate }));
@@ -45,7 +46,9 @@ const NavMenu = ({ isOpen, toggleMenu }) => {
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "top" }}
     >
-      <MenuItem>Profile</MenuItem>
+      <MenuItem>
+        <Typography variant="h6">Welcome, {currentUser?.username}</Typography>
+      </MenuItem>
       <MenuItem>
         <Button
           variant="contained"
