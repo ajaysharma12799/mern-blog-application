@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Box, Typography } from "@mui/material";
 
-const PreviewArticle = ({ formik, image }) => {
+const PreviewArticle = ({ formik, image, richTextContent }) => {
   return (
     <Box my={2} width={"50%"}>
       <Typography variant="h6">Preview Article</Typography>
@@ -10,7 +10,10 @@ const PreviewArticle = ({ formik, image }) => {
       </Box>
       <Typography variant="h6">{formik?.values?.title}</Typography>
       <Typography variant="body1">{formik?.values?.excerpt}</Typography>
-      <Typography variant="body1">{formik?.values?.content}</Typography>
+      <Typography
+        variant="body1"
+        dangerouslySetInnerHTML={{ __html: richTextContent }}
+      ></Typography>
     </Box>
   );
 };

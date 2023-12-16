@@ -14,19 +14,19 @@ const WriteArticle = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [image, setImage] = useState("");
+  const [richTextContent, setRichTextContent] = useState("");
   const formik = useFormik({
     initialValues: {
       image: "",
       title: "",
       excerpt: "",
-      content: "",
       category: "Uncategorized",
     },
     onSubmit: (values, { resetForm }) => {
       const articleFormData = new FormData();
       articleFormData.append("title", values.title);
       articleFormData.append("excerpt", values.excerpt);
-      articleFormData.append("content", values.content);
+      articleFormData.append("content", richTextContent);
       articleFormData.append("category", values.category);
       articleFormData.append("post_image", values.image);
 
@@ -55,9 +55,18 @@ const WriteArticle = () => {
           <Box my={2} width={"50%"}>
             <Typography variant="h6">Write Article</Typography>
             {/* Form */}
-            <ArticleForm formik={formik} setImage={setImage} />
+            <ArticleForm
+              formik={formik}
+              setImage={setImage}
+              setRichTextContent={setRichTextContent}
+              richTextContent={richTextContent}
+            />
           </Box>
-          <PreviewArticle formik={formik} image={image} />
+          <PreviewArticle
+            formik={formik}
+            image={image}
+            richTextContent={richTextContent}
+          />
         </Stack>
       </Container>
     </Screen>

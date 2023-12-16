@@ -10,8 +10,15 @@ import {
 import TextInput from "../../components/common/TextInput";
 import TextArea from "../../components/common/TextArea";
 import { BLOG_CATEGORIES } from "../../utils/CONSTANT";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-const ArticleForm = ({ formik, setImage }) => {
+const ArticleForm = ({
+  formik,
+  setImage,
+  setRichTextContent,
+  richTextContent,
+}) => {
   return (
     <Box my={2} component={"form"} onSubmit={formik.handleSubmit}>
       <TextInput
@@ -35,12 +42,10 @@ const ArticleForm = ({ formik, setImage }) => {
         onChange={formik.handleChange}
         placeholder={"Excerpt"}
       />
-      <TextArea
-        minRows={10}
-        name={"content"}
-        value={formik.values.content}
-        onChange={formik.handleChange}
-        placeholder={"Content"}
+      <ReactQuill
+        value={richTextContent}
+        onChange={setRichTextContent}
+        theme="snow"
       />
       <Box my={2}>
         <FormControl fullWidth>
