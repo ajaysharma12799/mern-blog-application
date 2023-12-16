@@ -1,49 +1,71 @@
 import {
-  Avatar,
   Box,
   Container,
-  Divider,
   Grid,
-  Stack,
   Typography,
+  CircularProgress,
+  Tabs,
+  Tab,
 } from "@mui/material";
 import Screen from "../components/Layout/Screen";
 import BlogCard from "../components/BlogCard/BlogCard";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { getCurrentUserArticles } from "../redux/features/post/post.slice";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
+  const [value, setValue] = useState("one");
+  const {
+    isCurrentUserArticleLoading,
+    currentUserArticles,
+    isAllArticlesLoading,
+    articles,
+  } = useSelector((state) => state.articles);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  useEffect(() => {
+    dispatch(getCurrentUserArticles());
+  }, []);
+
   return (
     <Screen>
-      <Container maxWidth={"lg"}>
+      <Container maxWidth={"xl"}>
         <Box my={2}>
-          <Stack direction={"row"} justifyContent={"space-between"} gap={5}>
-            <Box>
-              <Typography variant="h5">Your Blogs</Typography>
-              <Box mt={2}>
-                <Grid container spacing={2}>
-                  {[1, 2, 3, 4, 5, 6].map((_, idx) => {
-                    return <BlogCard key={idx} />;
-                  })}
-                </Grid>
-              </Box>
-            </Box>
-            <Box p={2}>
-              <Typography variant="h6" fontWeight={"bold"} mb={2}>
-                Profile
-              </Typography>
-              <Avatar
-                alt="User Profile Avatar"
-                src="https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?w=1480&t=st=1700903201~exp=1700903801~hmac=92e7f43c035671218fe71b3e2e428985f605652295359d8a9430ae10290d9af7"
-                sx={{ width: 50, height: 50 }}
-              />
-              <Box my={2}>
-                <Typography variant="body1">Username</Typography>
-                <Box my={1}>
-                  <Divider />
-                </Box>
-                <Typography variant="body1">email@email.com</Typography>
-              </Box>
-            </Box>
-          </Stack>
+          <Tabs value={value} onChange={handleChange}>
+            <Tab value="one" label="All Blogs" />
+            <Tab value="two" label="Your Blogs" />
+          </Tabs>
+          <Box mt={2}>
+            {value === "one" ? (
+              <Grid container spacing={2}>
+                {isAllArticlesLoading ? (
+                  <CircularProgress />
+                ) : articles.length <= 0 ? (
+                  <Typography>No Articles</Typography>
+                ) : (
+                  articles?.map((article) => {
+                    return <BlogCard key={article?._id} article={article} />;
+                  })
+                )}
+              </Grid>
+            ) : (
+              <Grid container spacing={2}>
+                {isCurrentUserArticleLoading ? (
+                  <CircularProgress />
+                ) : currentUserArticles.length <= 0 ? (
+                  <Typography>No Articles</Typography>
+                ) : (
+                  currentUserArticles.map((article) => {
+                    return <BlogCard key={article?._id} article={article} />;
+                  })
+                )}
+              </Grid>
+            )}
+          </Box>
         </Box>
       </Container>
     </Screen>
