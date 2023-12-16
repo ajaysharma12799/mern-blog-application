@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 
 const PostSchema = new mongoose.Schema(
   {
+    slug: {
+      type: String,
+    },
     title: {
       type: String,
       required: true,
@@ -41,5 +44,10 @@ const PostSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+PostSchema.pre("save", function (next) {
+  this.slug = this.title.split(" ").join("-").toLowerCase();
+  next();
+});
 
 module.exports = mongoose.model("Post", PostSchema);
