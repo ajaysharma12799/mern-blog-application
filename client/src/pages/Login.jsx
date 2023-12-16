@@ -69,7 +69,7 @@ const Login = () => {
           </Box>
           <Stack p={2} direction={"row"} alignItems={"center"} gap={1}>
             <Typography>Don&apos;t have account?</Typography>
-            <Link to={"/"}>Register</Link>
+            <Link to={"/register"}>Register</Link>
           </Stack>
         </Paper>
       </Container>
