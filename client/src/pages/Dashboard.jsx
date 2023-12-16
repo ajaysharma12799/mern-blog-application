@@ -11,7 +11,11 @@ import Screen from "../components/Layout/Screen";
 import BlogCard from "../components/BlogCard/BlogCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getCurrentUserArticles } from "../redux/features/post/post.slice";
+import {
+  deleteArticle,
+  getArticles,
+  getCurrentUserArticles,
+} from "../redux/features/post/post.slice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -30,6 +34,12 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(getCurrentUserArticles());
   }, []);
+
+  const handleDelete = (id) => {
+    dispatch(deleteArticle({ id }));
+    dispatch(getArticles());
+    dispatch(getCurrentUserArticles());
+  };
 
   return (
     <Screen>
@@ -60,7 +70,13 @@ const Dashboard = () => {
                   <Typography>No Articles</Typography>
                 ) : (
                   currentUserArticles.map((article) => {
-                    return <BlogCard key={article?._id} article={article} />;
+                    return (
+                      <BlogCard
+                        key={article?._id}
+                        handleDelete={handleDelete}
+                        article={article}
+                      />
+                    );
                   })
                 )}
               </Grid>
