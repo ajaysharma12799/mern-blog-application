@@ -19,10 +19,10 @@ router.get("/get-articles", async (req, res) => {
 });
 
 // Get Article
-router.get("/get-article/:id", async (req, res) => {
+router.get("/get-article/:slug", async (req, res) => {
   try {
-    const id = req.params.id;
-    const post = await PostModel.findById(id);
+    const slug = req.params.slug;
+    const post = await PostModel.findOne({ slug });
     if (!post) {
       return res.status(404).json({ error: `Post Does't Exist` });
     }
