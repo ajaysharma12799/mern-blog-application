@@ -3,8 +3,12 @@ import { Avatar, IconButton, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { LuPencilLine } from "react-icons/lu";
 import { CiSearch } from "react-icons/ci";
+import { useSelector } from "react-redux";
+import { generateGravatar } from "../../utils/utils";
 
 const AuthStack = ({ toggleSearchModal, toggleMenu, isOpen }) => {
+  const { currentUser } = useSelector((state) => state.auth);
+
   return (
     <Stack
       direction={"row"}
@@ -35,10 +39,7 @@ const AuthStack = ({ toggleSearchModal, toggleMenu, isOpen }) => {
         aria-haspopup="true"
         aria-expanded={isOpen ? "true" : undefined}
       >
-        <Avatar
-          alt="User Profile Avatar"
-          src="https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?w=1480&t=st=1700903201~exp=1700903801~hmac=92e7f43c035671218fe71b3e2e428985f605652295359d8a9430ae10290d9af7"
-        />
+        <Avatar alt="User Profile Avatar" src={generateGravatar(currentUser)} />
       </IconButton>
     </Stack>
   );

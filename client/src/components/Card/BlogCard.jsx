@@ -7,9 +7,13 @@ import {
   Typography,
   CardActions,
   Button,
+  Box,
+  Avatar,
+  Stack,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { generateGravatar } from "../../utils/utils";
 
 const BlogCard = ({ article, handleDelete }) => {
   const { currentUser } = useSelector((state) => state.auth);
@@ -21,11 +25,30 @@ const BlogCard = ({ article, handleDelete }) => {
           component={"img"}
           image={article?.image}
           title={article?.title}
-          sx={{ width: "100%", height: "100%" }}
+          sx={{
+            width: "100%",
+            height: "100%",
+          }}
         />
         <CardContent>
-          <Link to={`/view-article/${article?.slug}`}>
-            <Typography variant="h5">{article?.title}</Typography>
+          <Box>
+            <Stack direction={"row"} alignItems={"center"} gap={1}>
+              <Avatar src={generateGravatar(currentUser)} />
+              <Box>
+                <Typography>{article?.user?.username}</Typography>
+                <Typography mt={1}>
+                  {new Date(article?.createdAt).toLocaleDateString()}
+                </Typography>
+              </Box>
+            </Stack>
+          </Box>
+          <Link
+            to={`/view-article/${article?.slug}`}
+            style={{ color: "black", textDecoration: "underline" }}
+          >
+            <Typography variant="h5" my={2}>
+              {article?.title}
+            </Typography>
           </Link>
           <Typography variant="body1">{article?.excerpt}</Typography>
         </CardContent>
