@@ -8,7 +8,7 @@ import { Toaster } from "react-hot-toast";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import PublicRoute from "./components/routes/PublicRoute";
 import Home from "./pages/Home";
-import ArticleDetail from "./pages/ArticleDetail";
+import ArticleDetail from "./pages/ArticleDetail/ArticleDetail";
 
 const App = () => {
   return (
