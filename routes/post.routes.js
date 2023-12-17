@@ -7,7 +7,10 @@ const { uploadOnCloudinary } = require("../utils/Cloudinary");
 // Get Articles
 router.get("/get-articles", async (req, res) => {
   try {
-    const articles = await PostModel.find().sort({ createdAt: -1 });
+    const articles = await PostModel.find().sort({ createdAt: -1 }).populate({
+      path: "user",
+      select: "-password -email -createdAt -updatedAt",
+    });
     res.status(200).json({
       status: true,
       data: articles,
@@ -22,7 +25,10 @@ router.get("/get-articles", async (req, res) => {
 router.get("/get-article/:slug", async (req, res) => {
   try {
     const slug = req.params.slug;
-    const post = await PostModel.findOne({ slug });
+    const post = await PostModel.findOne({ slug }).populate({
+      path: "user",
+      select: "-password -email -createdAt -updatedAt",
+    });
     if (!post) {
       return res.status(404).json({ error: `Post Does't Exist` });
     }
@@ -38,9 +44,14 @@ router.get("/get-article/:slug", async (req, res) => {
 // Get Article Of Current User
 router.get("/get-current-user-articles", isAuthenticated, async (req, res) => {
   try {
-    const articles = await PostModel.find({ user: req.user?.id }).sort({
-      createdAt: -1,
-    });
+    const articles = await PostModel.find({ user: req.user?.id })
+      .sort({
+        createdAt: -1,
+      })
+      .populate({
+        path: "user",
+        select: "-password -email -createdAt -updatedAt",
+      });
     console.log(req.user.id);
     res.status(200).json({
       status: true,
