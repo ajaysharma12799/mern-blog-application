@@ -9,7 +9,7 @@ router.get("/get-articles", async (req, res) => {
   try {
     const articles = await PostModel.find().sort({ createdAt: -1 }).populate({
       path: "user",
-      select: "-password -email -createdAt -updatedAt",
+      select: "-password -createdAt -updatedAt",
     });
     res.status(200).json({
       status: true,
@@ -27,7 +27,7 @@ router.get("/get-article/:slug", async (req, res) => {
     const slug = req.params.slug;
     const post = await PostModel.findOne({ slug }).populate({
       path: "user",
-      select: "-password -email -createdAt -updatedAt",
+      select: "-password -createdAt -updatedAt",
     });
     if (!post) {
       return res.status(404).json({ error: `Post Does't Exist` });
@@ -50,7 +50,7 @@ router.get("/get-current-user-articles", isAuthenticated, async (req, res) => {
       })
       .populate({
         path: "user",
-        select: "-password -email -createdAt -updatedAt",
+        select: "-password -createdAt -updatedAt",
       });
     console.log(req.user.id);
     res.status(200).json({
