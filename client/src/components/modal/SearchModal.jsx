@@ -38,9 +38,11 @@ const SearchModal = ({ isOpen, toggleModal }) => {
         </Box>
         <Box>
           <Typography variant="body1">Results</Typography>
-          {[1, 2, 3, 4, 56, 7, 8, 9, 10, 11, 12, 13, 14, 15]?.map((article) => {
-            return <BlogFilterCard key={article?._id} />;
-          })}
+          {[1, 2, 3, 4, 56, 7, 8, 9, 10, 11, 12, 13, 14, 15]?.map(
+            (article, idx) => {
+              return <BlogFilterCard key={idx} />;
+            }
+          )}
         </Box>
       </ReactModal>
     </Box>
