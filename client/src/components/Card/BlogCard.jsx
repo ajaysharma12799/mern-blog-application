@@ -31,28 +31,28 @@ const BlogCard = ({ article, handleDelete }) => {
           }}
         />
         <CardContent>
-          <Box>
-            <Stack direction={"row"} alignItems={"center"} gap={1}>
-              <Avatar src={generateGravatar(currentUser)} />
-              <Box>
-                <Typography>{article?.user?.username}</Typography>
-                <Typography mt={1}>
-                  {new Date(article?.createdAt).toLocaleDateString()}
-                </Typography>
-              </Box>
-            </Stack>
-          </Box>
           <Link
             to={`/view-article/${article?.slug}`}
             style={{ color: "black", textDecoration: "underline" }}
           >
-            <Typography variant="h5" my={2}>
-              {article?.title}
-            </Typography>
+            <Typography variant="h5">{article?.title}</Typography>
           </Link>
-          <Typography variant="body1">{article?.excerpt}</Typography>
+          <Stack
+            direction={"row"}
+            alignItems={"center"}
+            justifyContent={"space-between"}
+            my={1}
+          >
+            <Avatar src={generateGravatar(currentUser)} />
+            <Box>
+              <Typography>By - {article?.user?.username}</Typography>
+              <Typography>
+                {new Date(article?.createdAt).toLocaleDateString()}
+              </Typography>
+            </Box>
+          </Stack>
         </CardContent>
-        {currentUser?._id === article.user && (
+        {currentUser?._id === article.user?._id && (
           <CardActions>
             <Button variant="outlined" color="primary" fullWidth>
               Edit
