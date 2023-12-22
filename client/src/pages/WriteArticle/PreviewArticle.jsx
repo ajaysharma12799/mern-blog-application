@@ -9,8 +9,11 @@ const PreviewArticle = ({ formik, image, richTextContent }) => {
         {formik?.values?.image && <img src={image} />}
       </Box>
       <Typography variant="h6">{formik?.values?.title}</Typography>
-      <Typography variant="body1">{formik?.values?.excerpt}</Typography>
+      <Typography my={2} variant="body1">
+        {formik?.values?.excerpt}
+      </Typography>
       <Typography
+        my={2}
         variant="body1"
         dangerouslySetInnerHTML={{ __html: richTextContent }}
       ></Typography>
