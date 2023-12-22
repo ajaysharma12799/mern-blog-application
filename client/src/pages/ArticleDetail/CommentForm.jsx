@@ -23,6 +23,7 @@ const CommentForm = ({ currentArticle }) => {
           comment: value,
         })
       );
+      setValue("");
     }
   };
 

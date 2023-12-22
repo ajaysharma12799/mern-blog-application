@@ -17,8 +17,6 @@ const SearchModal = ({ isOpen, toggleModal }) => {
     (a) => a.title.toLowerCase() === searchValue.toLowerCase()
   );
 
-  console.log(filteredArticles, articles);
-
   return (
     <Box>
       <ReactModal isOpen={isOpen} onRequestClose={toggleModal}>

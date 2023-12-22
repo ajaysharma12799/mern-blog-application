@@ -15,12 +15,10 @@ export const registerUser = createAsyncThunk(
   async ({ user, toast, navigate, resetForm }) => {
     try {
       const response = await axios.post(`/auth/register`, user);
-      console.log(response?.data);
       toast.success(response?.data?.msg);
       resetForm(); // Reset Form
       navigate("/login");
     } catch (error) {
-      console.log(error);
       toast.error(error?.response?.data?.error);
     }
   }
@@ -31,7 +29,6 @@ export const loginUser = createAsyncThunk(
   async ({ user, toast, navigate, resetForm }) => {
     try {
       const response = await axios.post(`/auth/login`, user);
-      console.log(response?.data);
       toast.success(response?.data?.msg);
       navigate("/dashboard");
       resetForm(); // Reset Form
@@ -39,7 +36,6 @@ export const loginUser = createAsyncThunk(
       localStorage.setItem("token", response?.data?.token);
       return response?.data;
     } catch (error) {
-      console.log(error);
       toast.error(error?.response?.data?.error);
     }
   }
@@ -54,7 +50,6 @@ export const logoutUser = createAsyncThunk(
       localStorage.removeItem("token");
       navigate("/");
     } catch (error) {
-      console.log(error);
       toast.error(error?.response?.data?.error);
     }
   }
@@ -66,7 +61,6 @@ export const getCurrentUser = createAsyncThunk("auth/me", async ({ toast }) => {
     console.log(response);
     return response?.data;
   } catch (error) {
-    console.log(error);
     toast.error(error?.response?.data?.error);
   }
 });

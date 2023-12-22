@@ -2,7 +2,6 @@
 import { Card, Box, CardContent, Avatar, Stack } from "@mui/material";
 
 const CommentCard = ({ comment }) => {
-  console.log(comment);
   return (
     <Box my={2}>
       <Stack gap={0.5}>
