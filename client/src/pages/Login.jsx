@@ -14,6 +14,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { loginUser } from "../redux/features/auth/auth.slice";
+import { object, string } from "yup";
+
+const loginSchema = object({
+  email: string().email().required("Please Provide Email"),
+  password: string()
+    .required("Please Provide Password")
+    .length(6, "Password Should be atleast 6 Characters Long"),
+});
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -25,8 +33,8 @@ const Login = () => {
       email: "",
       password: "",
     },
+    validationSchema: loginSchema,
     onSubmit: (value, { resetForm }) => {
-      console.log(value);
       dispatch(loginUser({ user: value, toast, navigate, resetForm }));
     },
   });
@@ -50,6 +58,7 @@ const Login = () => {
               type={"email"}
               value={formik.values.email}
               onChange={formik.handleChange}
+              errorMsg={formik.errors.email}
             />
             <TextInput
               label={"Password"}
@@ -57,6 +66,7 @@ const Login = () => {
               type={"password"}
               value={formik.values.password}
               onChange={formik.handleChange}
+              errorMsg={formik.errors.password}
             />
             <Button
               disabled={isLoginLoading}
