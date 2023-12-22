@@ -16,6 +16,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../redux/features/auth/auth.slice";
 import toast from "react-hot-toast";
+import { object, string } from "yup";
+
+const registerSchema = object({
+  username: string()
+    .required("Please Enter Username")
+    .length(5, "Username Should be atleast 5 Characters Long"),
+  email: string().email().required("Please Provide Email"),
+  password: string()
+    .required("Please Provide Password")
+    .length(6, "Password Should be atleast 6 Characters Long"),
+  confirmPassword: string()
+    .required("Please Provide Password")
+    .length(6, "Confirm Password Should be atleast 6 Characters Long"),
+});
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -28,8 +42,8 @@ const Register = () => {
       password: "",
       confirmPassword: "",
     },
+    validationSchema: registerSchema,
     onSubmit: (value, { resetForm }) => {
-      console.log(value);
       if (value.password === value.confirmPassword) {
         const { confirmPassword, ...user } = value;
         dispatch(registerUser({ user, toast, navigate, resetForm }));
@@ -58,6 +72,7 @@ const Register = () => {
               type={"text"}
               value={formik.values.username}
               onChange={formik.handleChange}
+              errorMsg={formik.errors.username}
             />
             <TextInput
               label={"Email"}
@@ -65,6 +80,7 @@ const Register = () => {
               type={"email"}
               value={formik.values.email}
               onChange={formik.handleChange}
+              errorMsg={formik.errors.email}
             />
             <TextInput
               label={"Password"}
@@ -72,6 +88,7 @@ const Register = () => {
               type={"password"}
               value={formik.values.password}
               onChange={formik.handleChange}
+              errorMsg={formik.errors.password}
             />
             <TextInput
               label={"Confirm Password"}
@@ -79,6 +96,7 @@ const Register = () => {
               type={"password"}
               value={formik.values.confirmPassword}
               onChange={formik.handleChange}
+              errorMsg={formik.errors.confirmPassword}
             />
             <Button
               disabled={isRegisterLoading}
