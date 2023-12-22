@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { getArticle } from "../../redux/features/post/post.slice";
 import { formatDate } from "../../utils/utils";
 import Comment from "./Comment";
+import { getCurrentArticleComments } from "../../redux/features/comments/comment.slice";
 
 const ArticleDetail = () => {
   const params = useParams();
@@ -20,10 +21,15 @@ const ArticleDetail = () => {
   const { isCurrentArticleLoading, currentArticle } = useSelector(
     (state) => state.articles
   );
+  const { isAllCommentsLoading, currentPostComments } = useSelector(
+    (state) => state.comments
+  );
 
   useEffect(() => {
     dispatch(getArticle({ slug: params.slug }));
-  }, []);
+
+    dispatch(getCurrentArticleComments({ postId: currentArticle?._id }));
+  }, [currentArticle?._id, dispatch, params.slug]);
 
   return (
     <Screen>
@@ -65,7 +71,15 @@ const ArticleDetail = () => {
             </Box>
           )}
         </Box>
-        {!isCurrentArticleLoading && <Comment />}
+        {isCurrentArticleLoading ? (
+          <CircularProgress />
+        ) : (
+          <Comment
+            isAllCommentsLoading={isAllCommentsLoading}
+            currentPostComments={currentPostComments}
+            currentArticle={currentArticle}
+          />
+        )}
       </Container>
     </Screen>
   );
