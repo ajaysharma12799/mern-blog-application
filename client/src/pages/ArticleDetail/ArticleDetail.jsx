@@ -57,13 +57,15 @@ const ArticleDetail = () => {
               <Typography variant="body1" mt={2}>
                 {currentArticle?.excerpt}
               </Typography>
-              <Typography variant="body1" mt={5}>
-                {currentArticle?.content}
-              </Typography>
+              <Typography
+                variant="body1"
+                mt={5}
+                dangerouslySetInnerHTML={{ __html: currentArticle?.content }}
+              ></Typography>
             </Box>
           )}
         </Box>
-        <Comment />
+        {!isCurrentArticleLoading && <Comment />}
       </Container>
     </Screen>
   );
