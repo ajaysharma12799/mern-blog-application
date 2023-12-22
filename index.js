@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: "true" }));
 
 app.use("/api/auth", require("./routes/auth.routes"));
 app.use("/api/post", require("./routes/post.routes"));
+app.use("/api/comment", require("./routes/comment.routes"));
 
 app.listen(PORT, (error) => {
   if (error) {
