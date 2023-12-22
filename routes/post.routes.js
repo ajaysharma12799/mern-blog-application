@@ -52,7 +52,6 @@ router.get("/get-current-user-articles", isAuthenticated, async (req, res) => {
         path: "user",
         select: "-password -createdAt -updatedAt",
       });
-    console.log(req.user.id);
     res.status(200).json({
       status: true,
       data: articles,
@@ -114,7 +113,6 @@ router.delete("/delete-article/:id", isAuthenticated, async (req, res) => {
       return res.status(404).json({ error: `Post Does't Exist` });
     }
 
-    console.log(post);
     if (req.user?.id !== post?.user?.toString()) {
       return res
         .status(400)
