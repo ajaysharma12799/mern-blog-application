@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import { Box, TextField } from "@mui/material";
+import ErrorField from "./ErrorField";
 
-const TextInput = ({ label, value, onChange, name, type }) => {
+const TextInput = ({ label, value, onChange, name, type, errorMsg }) => {
   return (
     <Box my={2}>
       <TextField
@@ -13,6 +14,7 @@ const TextInput = ({ label, value, onChange, name, type }) => {
         type={type}
         fullWidth
       />
+      <ErrorField errorMsg={errorMsg} />
     </Box>
   );
 };
