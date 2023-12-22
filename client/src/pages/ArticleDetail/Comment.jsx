@@ -1,15 +1,20 @@
+/* eslint-disable react/prop-types */
 import { Box, Divider } from "@mui/material";
 import CommentForm from "./CommentForm";
 import CommentCard from "../../components/Card/CommentCard";
+import { useSelector } from "react-redux";
 
-const Comment = () => {
+const Comment = ({ currentPostComments, currentArticle }) => {
+  const { isAuthenticated, currentUser } = useSelector((state) => state.auth);
   return (
     <Box my={2}>
       <Divider>Comments</Divider>
-      <CommentForm />
+      {isAuthenticated && currentUser && (
+        <CommentForm currentArticle={currentArticle} />
+      )}
       <Box my={2}>
-        {[1, 2, 3, 4, 5].map((_, idx) => {
-          return <CommentCard key={idx} />;
+        {currentPostComments?.map((comment, idx) => {
+          return <CommentCard key={idx} comment={comment} />;
         })}
       </Box>
     </Box>
